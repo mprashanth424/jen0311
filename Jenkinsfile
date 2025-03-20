@@ -10,15 +10,29 @@ pipeline {
                 }
             }
         }
-        stage('Install Dependencies') {
+        stage('Install Go') {
             steps {
-                sh 'pip3 install -r requirements.txt'
-                sh 'pip3 install -r workforcepro/requirements.txt'  // Install dependencies from submodule
+                sh '''
+                    wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz -O go.tar.gz
+                    sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go.tar.gz
+                    export PATH=$PATH:/usr/local/go/bin
+                    go version
+                '''
             }
         }
-        stage('Run Flask App') {
+        stage('Set Up Go Modules') {
             steps {
-                sh 'nohup python3 workforcepro/app.py &'
+                sh 'cd workforcepro/backend && go mod tidy'
+            }
+        }
+        stage('Build Go Application') {
+            steps {
+                sh 'cd workforcepro/backend && go build -o workforce-app'
+            }
+        }
+        stage('Run Go Application') {
+            steps {
+                sh 'cd workforcepro/backend && nohup ./workforce-app &'
             }
         }
     }
