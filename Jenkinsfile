@@ -14,9 +14,11 @@ pipeline {
             steps {
                 sh '''
                     curl -L -o go.tar.gz https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
-                    sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go.tar.gz
-                    export PATH=$PATH:/usr/local/go/bin
-                    go version
+            	    mkdir -p $HOME/go
+           	    tar -C $HOME/go -xzf go.tar.gz
+           	    export PATH=$HOME/go/go/bin:$PATH
+           	    echo "export PATH=$HOME/go/go/bin:$PATH" >> ~/.bashrc
+           	    go version
                 '''
             }
         }
