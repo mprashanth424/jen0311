@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.9'
+        }
+    }
 
     stages {
         stage('Clone Repository') {
@@ -9,12 +13,12 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                sh '/opt/anaconda3/bin/pip3 install -r requirements.txt'
+                sh 'pip install -r requirements.txt'
             }
         }
         stage('Run Flask App') {
             steps {
-                sh 'nohup /opt/anaconda3/bin/python3 app.py &'
+                sh 'nohup python app.py &'
             }
         }
     }
