@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                sh 'pip3 install -r requirements.txt'
+                sh '/opt/anaconda3/bin/pip3 install -r requirements.txt'
             }
         }
         stage('Run Flask App') {
