@@ -1,0 +1,3 @@
+[submodule "workforcepro"]
+	path = workforcepro
+	url = https://github.com/RadhaPamarthi/WorkForcePro.git
