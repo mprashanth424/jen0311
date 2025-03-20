@@ -49,8 +49,11 @@ pipeline {
             steps {
                 sh '''
                     export PATH=$HOME/go/go/bin:$PATH
-                    cd workforcepro/backend
-                    nohup ./workforce-app &
+           	    cd workforcepro/backend
+           	    chmod +x workforce-app  # Ensure the app is executable
+           	    nohup ./workforce-app > app.log 2>&1 & echo $! > pid.txt
+           	    sleep 3  # Give some time for the app to start
+           	    cat app.log  # Show the logs in Jenkins output
                 '''
             }
         }
